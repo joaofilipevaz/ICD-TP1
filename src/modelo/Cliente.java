@@ -31,6 +31,7 @@ public class Cliente {
         this.foto = foto;
         this.assinatura = assinatura;
         this.dateOfBirth = LocalDate.of(ano, mes , dia);
+        contas = new ArrayList<Conta>();
     }
 
     public int getBi() {
