@@ -28,6 +28,10 @@ public class ControllerCliente {
 
         clienteTCP.writeSocket(log.getStringFromDocument(d));
 
+        while(true) {
+            clienteTCP.writeSocket("foda-se");
+            clienteTCP.writeSocket("foda-se");
+        }
         //clienteTCP.closeSocket();
 
         //log.removeChilds(d.getDocumentElement());

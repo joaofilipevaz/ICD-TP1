@@ -14,7 +14,7 @@ public class ControllerServidor {
             e.printStackTrace();
         }
 
-        System.out.println("Stopping Server");
-        sv.stop();
+        //System.out.println("Stopping Server");
+        //sv.stop();
     }
 }

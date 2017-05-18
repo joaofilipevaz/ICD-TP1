@@ -87,7 +87,9 @@ class HandleConnectionThread extends Thread {
 
     public void run() {
         openSocket();
-        readSocket();
+        while (session) {
+            readSocket();
+        }
         closeSocket();
     } // end run
 
@@ -109,11 +111,10 @@ class HandleConnectionThread extends Thread {
 
     private String readSocket(){
         try {
-            while (session) {
-                String msg = is.readLine();
-                System.out.println("servidor recebeu --> " + msg);
-                return msg;
-            }
+            String msg = is.readLine();
+            System.out.println("servidor recebeu --> " + msg);
+            return msg;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
