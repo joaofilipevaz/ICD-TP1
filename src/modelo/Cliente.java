@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Cliente {
 
     private String nomeCliente;
-    private String bi;
+    private int bi;
     private int nif;
     private LocalDate dateOfBirth;
     private String morada;
@@ -24,19 +24,20 @@ public class Cliente {
     private Image foto;
     private Image assinatura;
 
-    public Cliente(String nomeCliente, int nif, Image foto, Image assinatura, int ano, int mes, int dia) {
+    public Cliente(String nomeCliente, int bi, int nif, Image foto, Image assinatura, int ano, int mes, int dia) {
         this.nomeCliente = nomeCliente;
+        this.bi = bi;
         this.nif = nif;
         this.foto = foto;
         this.assinatura = assinatura;
         this.dateOfBirth = LocalDate.of(ano, mes , dia);
     }
 
-    public String getBi() {
+    public int getBi() {
         return bi;
     }
 
-    public void setBi(String bi) {
+    public void setBi(int bi) {
         this.bi = bi;
     }
 
