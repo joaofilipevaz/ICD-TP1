@@ -2,26 +2,58 @@ package modelo;
 
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
- * Created by Mónica on 26/04/2017.
+ *
+ Sobre os clientes titulares de uma ou mais contas bancárias é mantida informação
+ sobre:  nome  completo,  documento  identificação  (cartão  cidadão,  passaporte,  …),
+ data  nascimento,  assinatura  e fotografia.
  */
 public class Cliente {
 
     private String nomeCliente;
-    private int idCliente;
+    private String bi;
     private int nif;
-    protected String morada;
-    protected int numTelefone;
-    protected int numConta;
+    private LocalDate dateOfBirth;
+    private String morada;
+    private int numTelefone;
+    private int numConta;
+    private ArrayList<Conta> contas;
     private Image foto;
     private Image assinatura;
 
-    public Cliente(String nomeCliente, int nif, Image foto, Image assinatura) {
+    public Cliente(String nomeCliente, int nif, Image foto, Image assinatura, int ano, int mes, int dia) {
         this.nomeCliente = nomeCliente;
         this.nif = nif;
         this.foto = foto;
         this.assinatura = assinatura;
+        this.dateOfBirth = LocalDate.of(ano, mes , dia);
+    }
+
+    public String getBi() {
+        return bi;
+    }
+
+    public void setBi(String bi) {
+        this.bi = bi;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public ArrayList<Conta> getContas() {
+        return contas;
+    }
+
+    public void setContas(ArrayList<Conta> contas) {
+        this.contas = contas;
     }
 
     public String getNomeCliente() {

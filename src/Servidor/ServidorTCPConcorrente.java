@@ -20,17 +20,18 @@ public final class ServidorTCPConcorrente {
     private Socket newSock;
     private int port;
 
-    private ServidorTCPConcorrente() {
+    public ServidorTCPConcorrente() {
         this.serverSocket = null;
         this.newSock = null;
         this.port = DEFAULT_PORT;
+
     }
 
     public static ServidorTCPConcorrente getInstance() {
         return INSTANCE;
     }
 
-    private void initServerSocket(){
+    public void initServerSocket(){
         try {
             serverSocket = new ServerSocket(port);
 
@@ -53,7 +54,6 @@ public final class ServidorTCPConcorrente {
     {
         ServidorTCPConcorrente servTCP = new ServidorTCPConcorrente();
         servTCP.initServerSocket();
-
     } // end main
 
 } // end ServidorTCP
@@ -70,12 +70,13 @@ class HandleConnectionThread extends Thread {
         this.connection = connection;
         this.is = null;
         this.os = null;
+        openSocket();
     }
 
     public void run() {
-        openSocket();
+
         readSocket();
-        closeSocket();
+        //closeSocket();
 
     } // end run
 

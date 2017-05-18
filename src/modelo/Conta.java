@@ -15,14 +15,21 @@ public class Conta {
     private double saldoDisponivel;
     private double saldoAutorizado;
     private ArrayList<Movimento> movimentos;
+    private String nomeConta;
 
 
-    public Conta(String numConta, int idCliente, double saldoContabilistico) {
+    public Conta(String nomeConta, String numConta, int idCliente, double saldoContabilistico, String nib, String iban) {
         this.numConta = numConta;
         this.idCliente = idCliente;
         this.saldoContabilistico = saldoContabilistico;
+        this.nomeConta = nomeConta;
+        this.nib = nib;
+        this.iban = iban;
     }
 
+    public String getNomeConta() {
+        return nomeConta;
+    }
 
     public String getNib() {
         return nib;
