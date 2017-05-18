@@ -12,11 +12,12 @@ public class ClienteIndividual extends Cliente {
     private String numPassaporte;
     private LocalDate dataDeNascimento;
 
-    public ClienteIndividual(String nomeCliente, int nif, Image foto, Image assinatura, String numCartaoCidadao, String numPassaporte, LocalDate dataDeNascimento) {
+    public ClienteIndividual(String nomeCliente, int nif, Image foto, Image assinatura, String numCartaoCidadao,
+                             String numPassaporte, int ano, int mes, int dia) {
         super(nomeCliente, nif, foto, assinatura);
         this.numCartaoCidadao = numCartaoCidadao;
         this.numPassaporte = numPassaporte;
-        this.dataDeNascimento = dataDeNascimento;
+        this.dataDeNascimento = LocalDate.of(ano, mes , dia);
     }
 
     public String getNumCartaoCidadao() {

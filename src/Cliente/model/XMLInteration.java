@@ -114,9 +114,8 @@ public class XMLInteration {
 	public Cliente getClient(Document doc){
 
 		Cliente cliente = new Cliente(getString("nomeCliente", doc),
-				Integer.parseInt(getString("bi", doc)),
 				Integer.parseInt(getString("nif", doc)),
-				null, null, 1981, 8,23);
+				null, null);
 		cliente.setMorada(getString("morada", doc));
 		cliente.setNumConta(Integer.parseInt(getString("numConta", doc)));
 		cliente.setNumTelefone(Integer.parseInt(getString("numTelefone", doc)));
@@ -131,7 +130,7 @@ public class XMLInteration {
 				getString("numConta", doc),
 				Integer.parseInt(getString("idCliente", doc)),
 				Double.parseDouble(getString("saldoContabilistico", doc)),
-				getString("nib", doc),
+                getString("nib", doc),
 				getString("iban", doc));
 		
 		conta.setSaldoAutorizado(Double.parseDouble(getString("saldoAutorizado", doc)));

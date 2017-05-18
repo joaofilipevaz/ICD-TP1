@@ -15,8 +15,11 @@ import Protocolo.Protocolo;
 import modelo.*;
 import org.w3c.dom.Document;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -44,8 +47,16 @@ public class GuiControl implements OnLoginEventListener, OnClientEventListener, 
 		Protocolo pro = new Protocolo();
 		
 		xmlInt = new XMLInteration();
-		Cliente cli =  xmlInt.getClient(pro.infoCliente(new Cliente("Joao Filipe Vaz", 34545632,
-				207905835, null, null, 1981, 8,23)));
+		Image assinatura = null;
+		Image foto = null;
+		try {
+			foto = ImageIO.read(new File("foto.jpg"));
+			assinatura = ImageIO.read(new File("assinatura.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Cliente cli =  xmlInt.getClient(pro.infoCliente(new Cliente("Joao Filipe Vaz",
+				207905835, foto, assinatura)));
 		
 		System.out.println(cli.getNomeCliente() + " " + cli.getNif());
 		

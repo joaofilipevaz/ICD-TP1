@@ -17,9 +17,6 @@ public class ClientModel {
 	public ClientModel(User user){
 		this.user = user;
 		currentAccount = new Conta("teste0", "3215648948", 1234578, 1.0, "000000", "000000"); //a minha conta inicial sera a primeira da lista de contas recebida;
-		
-		
-		
 		accountList = new ArrayList<Conta>();
 		accountList.add(new Conta("teste1", "3215648948", 1234578, 1.0, ""+111111, ""+111111));
 		accountList.get(0).setEmprestimo(new Emprestimo("teste1", 10.0, 5.0, 1.0, 5));

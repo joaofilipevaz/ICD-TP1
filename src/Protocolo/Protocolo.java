@@ -310,7 +310,9 @@ public class Protocolo {
         XMLDoc.writeDocument(d, "cliente.xml");
 
         removeChilds(d.getDocumentElement());
-        Conta conta = new Conta("0276214522", 00103256221, 0.0);
+        Conta conta = new Conta("contaaordem", "276214522", 103256221,
+                0.0, "321568432513215346",
+                "PT50321568432513215346");
 
         d = log.infoConta(conta);
         XMLDoc.writeDocument(d, "conta.xml");
