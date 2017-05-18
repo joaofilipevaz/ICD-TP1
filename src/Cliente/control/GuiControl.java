@@ -189,7 +189,7 @@ public class GuiControl implements OnLoginEventListener, OnClientEventListener, 
 		frameLogin = new LoginGui();
 		
 		centreWindow(frameLogin);
-		loginModel = new LoginModel();
+		//loginModel = new LoginModel();
 	    frameLogin.setOnLoginEventListener(this);
 		frameLogin.setVisible(true);
 	}

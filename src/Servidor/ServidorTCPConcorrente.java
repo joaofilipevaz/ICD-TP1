@@ -7,54 +7,64 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//import java.util.Scanner;
 
-public final class ServidorTCPConcorrente {
-
-    //implementacao singleton
-    private static final ServidorTCPConcorrente INSTANCE = new ServidorTCPConcorrente();
-
-    private final static int DEFAULT_PORT = 5025;
+public final class ServidorTCPConcorrente implements Runnable {
 
     private ServerSocket serverSocket;
-    private Socket newSock;
-    private int port;
+    private int serverPort;
+    protected boolean isActive;
+    protected Thread runningThread = null;
 
-    public ServidorTCPConcorrente() {
+    public ServidorTCPConcorrente(int port) {
         this.serverSocket = null;
-        this.newSock = null;
-        this.port = DEFAULT_PORT;
-
+        this.serverPort = port;
+        this.isActive = true;
     }
 
-    public static ServidorTCPConcorrente getInstance() {
-        return INSTANCE;
-    }
-
-    public void initServerSocket(){
+    private void openServerSocket() {
         try {
-            serverSocket = new ServerSocket(port);
+            this.serverSocket = new ServerSocket(this.serverPort);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot open serverPort " + Integer.toString(serverPort), e);
+        }
+    }
 
-            for( ; ; ) {
-                System.out.println("Servidor TCP concorrente aguarda ligacao no porto " + port + "..." );
+    public void run(){
+        synchronized(this){
+            this.runningThread = Thread.currentThread();
+        }
+        openServerSocket();
+        while(isActive) {
+            Socket clientSocket = null;
+            try {
+
+                System.out.println("Servidor TCP concorrente aguarda ligacao no porto " + serverPort + "..." );
 
                 // Espera connect do cliente
-                newSock = serverSocket.accept();
+                clientSocket = this.serverSocket.accept();
 
-                Thread th = new HandleConnectionThread(newSock);
-                th.start();
+            } catch (IOException e) {
+                System.err.println("Excepção no servidor: " + e);
             }
+
+            Thread th = new HandleConnectionThread(clientSocket);
+            th.start();
         }
-        catch (IOException e) {
-            System.err.println("Excepção no servidor: " + e);
-        }
+        System.out.println("Servidor Parado");
     }
 
-    public static void main(String[] args)
-    {
-        ServidorTCPConcorrente servTCP = new ServidorTCPConcorrente();
-        servTCP.initServerSocket();
-    } // end main
+    private synchronized boolean isActive() {
+        return this.isActive;
+    }
+
+    public synchronized void stop(){
+        this.isActive = false;
+        try {
+            this.serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Error closing server", e);
+        }
+    }
 
 } // end ServidorTCP
 
@@ -65,19 +75,20 @@ class HandleConnectionThread extends Thread {
     private Socket connection;
     private BufferedReader is;
     private PrintWriter os;
+    public boolean session;
 
     HandleConnectionThread(Socket connection) {
         this.connection = connection;
         this.is = null;
         this.os = null;
-        openSocket();
+        this.session = true;
+
     }
 
     public void run() {
-
+        openSocket();
         readSocket();
-        //closeSocket();
-
+        closeSocket();
     } // end run
 
     private void openSocket(){
@@ -98,15 +109,24 @@ class HandleConnectionThread extends Thread {
 
     private String readSocket(){
         try {
-            String msg = is.readLine();
-            System.out.println("servidor recebeu --> " + msg);
-            return msg;
+            while (session) {
+                String msg = is.readLine();
+                System.out.println("servidor recebeu --> " + msg);
+                return msg;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    private boolean isConnected() {
+        return this.session;
+    }
+
+    protected void end() {
+        this.session = false;
+    }
 
     public void writeSocket(String s){
         os.println(s);
