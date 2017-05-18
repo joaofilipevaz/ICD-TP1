@@ -15,6 +15,7 @@ public class Conta {
     private double saldoDisponivel;
     private double saldoAutorizado;
     private ArrayList<Movimento> movimentos;
+    private ArrayList<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
     private String nomeConta;
 
 
@@ -93,5 +94,17 @@ public class Conta {
 
     public void setMovimentos(ArrayList<Movimento> movimentos) {
         this.movimentos = movimentos;
+    }
+
+    public ArrayList<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimo(Emprestimo emprestimo) {
+        this.emprestimos.add(emprestimo);
+    }
+
+    public void setEmprestimos(ArrayList<Emprestimo> emprestimos) {
+        this.emprestimos = emprestimos;
     }
 }

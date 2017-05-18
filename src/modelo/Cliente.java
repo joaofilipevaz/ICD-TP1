@@ -24,12 +24,16 @@ public class Cliente {
     private Image foto;
     private Image assinatura;
 
-    public Cliente(String nomeCliente, int bi, int nif, Image foto, Image assinatura, int ano, int mes, int dia) {
+    public Cliente(String nomeCliente, int nif, Image foto, Image assinatura){
         this.nomeCliente = nomeCliente;
-        this.bi = bi;
         this.nif = nif;
         this.foto = foto;
         this.assinatura = assinatura;
+    }
+
+    public Cliente(String nomeCliente, int bi, int nif, Image foto, Image assinatura, int ano, int mes, int dia) {
+        this(nomeCliente, nif, foto, assinatura);
+        this.bi = bi;
         this.dateOfBirth = LocalDate.of(ano, mes , dia);
         contas = new ArrayList<Conta>();
     }

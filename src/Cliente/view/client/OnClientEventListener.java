@@ -1,9 +1,6 @@
 package Cliente.view.client;
 
-import commun.Conta;
-import commun.Emprestimo;
-import commun.Movimento;
-
+import modelo.*;
 import java.util.ArrayList;
 
 public interface OnClientEventListener {

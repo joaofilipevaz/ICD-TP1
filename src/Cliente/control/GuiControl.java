@@ -44,7 +44,8 @@ public class GuiControl implements OnLoginEventListener, OnClientEventListener, 
 		Protocolo pro = new Protocolo();
 		
 		xmlInt = new XMLInteration();
-		Cliente cli =  xmlInt.getClient(pro.infoCliente(new Cliente("Joao Filipe Vaz", 207905835, null, null)));
+		Cliente cli =  xmlInt.getClient(pro.infoCliente(new Cliente("Joao Filipe Vaz", 34545632,
+				207905835, null, null, 1981, 8,23)));
 		
 		System.out.println(cli.getNomeCliente() + " " + cli.getNif());
 		
@@ -229,7 +230,7 @@ public class GuiControl implements OnLoginEventListener, OnClientEventListener, 
 	        String u = "zeto";
 	        String pass = "asdwf23425";
 
-	        Protocolo.Protocolo log = new Protocolo.Protocolo();
+	        Protocolo log = new Protocolo();
 
 	        Document d = log.writeLogin(u, pass);
 

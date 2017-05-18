@@ -2,10 +2,7 @@ package Cliente.view.client;
 
 import Cliente.OnCommunEventListener;
 import Cliente.model.User;
-import commun.Conta;
-import commun.Emprestimo;
-import commun.Movimento;
-
+import modelo.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
