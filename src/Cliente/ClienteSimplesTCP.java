@@ -1,6 +1,7 @@
 package Cliente;
 
-import javax.swing.text.Document;
+import Protocolo.Protocolo;
+import org.w3c.dom.Document;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,8 +56,9 @@ public class ClienteSimplesTCP {
     }
 
     public void writeSocket(Document d){
-        os.println(d);
-        System.out.println("Cliente Enviou --> " + d.toString());
+        String msg = Protocolo.getStringFromDocument(d);
+        os.println(msg);
+        System.out.println("Cliente Enviou --> " + msg);
     }
 
     public String readSocket(){

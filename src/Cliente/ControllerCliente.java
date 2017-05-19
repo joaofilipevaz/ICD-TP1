@@ -1,7 +1,6 @@
 package Cliente;
 
 import Protocolo.Protocolo;
-import XML.XMLDoc;
 import org.w3c.dom.Document;
 
 public class ControllerCliente {
@@ -26,12 +25,8 @@ public class ControllerCliente {
 
         Document d = log.writeLogin(u, pass);
 
-        clienteTCP.writeSocket(log.getStringFromDocument(d));
+        clienteTCP.writeSocket(d);
 
-        while(true) {
-            clienteTCP.writeSocket("foda-se");
-            clienteTCP.writeSocket("foda-se");
-        }
         //clienteTCP.closeSocket();
 
         //log.removeChilds(d.getDocumentElement());

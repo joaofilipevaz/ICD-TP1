@@ -5,6 +5,7 @@ import modelo.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -251,7 +252,7 @@ public class Protocolo {
     }
 
     //method to convert Document to String
-    public String getStringFromDocument(Document doc)
+    public static String getStringFromDocument(Document doc)
     {
         try
         {
@@ -268,6 +269,20 @@ public class Protocolo {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public static Document convertStringToDocument(String xmlStr) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        try
+        {
+            builder = factory.newDocumentBuilder();
+            Document doc = builder.parse( new InputSource( new StringReader( xmlStr ) ) );
+            return doc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

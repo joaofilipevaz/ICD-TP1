@@ -1,9 +1,11 @@
 package Servidor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import Protocolo.Protocolo;
+import org.w3c.dom.Document;
+
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -73,14 +75,14 @@ public final class ServidorTCPConcorrente implements Runnable {
 class HandleConnectionThread extends Thread {
 
     private Socket connection;
-    private BufferedReader is;
-    private PrintWriter os;
+    private XMLDecoder decoder;
+    private XMLEncoder encoder;
     public boolean session;
 
     HandleConnectionThread(Socket connection) {
         this.connection = connection;
-        this.is = null;
-        this.os = null;
+        this.decoder = null;
+        this.encoder = null;
         this.session = true;
 
     }
@@ -99,9 +101,10 @@ class HandleConnectionThread extends Thread {
             // circuito virtual estabelecido: socket cliente na variavel newSock
             System.out.println("Thread " + this.getId() + ": " + connection.getRemoteSocketAddress());
 
-            is = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(connection.getInputStream()));
 
-            os = new PrintWriter(connection.getOutputStream(), true);
+
+            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(connection.getOutputStream()));
 
         }
         catch (IOException e) {
@@ -109,16 +112,10 @@ class HandleConnectionThread extends Thread {
         }
     }
 
-    private String readSocket(){
-        try {
-            String msg = is.readLine();
-            System.out.println("servidor recebeu --> " + msg);
-            return msg;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private Document readSocket(){
+        Document d = (Document) decoder.readObject();
+        System.out.println("servidor recebeu --> " + Protocolo.getStringFromDocument(d));
+        return d;
     }
 
     private boolean isConnected() {
@@ -130,7 +127,7 @@ class HandleConnectionThread extends Thread {
     }
 
     public void writeSocket(String s){
-        os.println(s);
+        encoder.writeObject(s);
         System.out.println("Servidor Enviou --> " + s);
     }
 
@@ -139,8 +136,8 @@ class HandleConnectionThread extends Thread {
 
         // Fechar os streams e o socket
         try {
-            if (os != null) os.close();
-            if (is != null) is.close();
+            if (encoder != null) encoder.close();
+            if (decoder != null) decoder.close();
             if (connection != null ) connection.close();
         }
         catch (IOException e) {
