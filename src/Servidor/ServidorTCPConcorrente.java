@@ -1,10 +1,5 @@
 package Servidor;
 
-import Protocolo.Protocolo;
-import org.w3c.dom.Document;
-
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -71,26 +66,24 @@ public final class ServidorTCPConcorrente implements Runnable {
 } // end ServidorTCP
 
 
-
 class HandleConnectionThread extends Thread {
 
     private Socket connection;
-    private XMLDecoder decoder;
-    private XMLEncoder encoder;
+    private BufferedReader is;
+    private PrintWriter os;
     public boolean session;
 
     HandleConnectionThread(Socket connection) {
         this.connection = connection;
-        this.decoder = null;
-        this.encoder = null;
+        this.is = null;
+        this.os = null;
         this.session = true;
-
     }
 
     public void run() {
         openSocket();
         while (session) {
-            readSocket();
+            writeSocket(ControllerServidor.gestorComunicacao(readSocket()));
         }
         closeSocket();
     } // end run
@@ -101,10 +94,11 @@ class HandleConnectionThread extends Thread {
             // circuito virtual estabelecido: socket cliente na variavel newSock
             System.out.println("Thread " + this.getId() + ": " + connection.getRemoteSocketAddress());
 
-            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(connection.getInputStream()));
+            // Stream para escrita no socket
+            os = new PrintWriter(connection.getOutputStream(), true);
 
-
-            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(connection.getOutputStream()));
+            // Stream para leitura do socket
+            is = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         }
         catch (IOException e) {
@@ -112,10 +106,15 @@ class HandleConnectionThread extends Thread {
         }
     }
 
-    private Document readSocket(){
-        Document d = (Document) decoder.readObject();
-        System.out.println("servidor recebeu --> " + Protocolo.getStringFromDocument(d));
-        return d;
+    private String readSocket() {
+        try {
+            String msg = is.readLine();
+            System.out.println("servidor recebeu --> " + msg);
+            return msg;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private boolean isConnected() {
@@ -127,7 +126,7 @@ class HandleConnectionThread extends Thread {
     }
 
     public void writeSocket(String s){
-        encoder.writeObject(s);
+        os.println(s);
         System.out.println("Servidor Enviou --> " + s);
     }
 
@@ -136,8 +135,8 @@ class HandleConnectionThread extends Thread {
 
         // Fechar os streams e o socket
         try {
-            if (encoder != null) encoder.close();
-            if (decoder != null) decoder.close();
+            if (os != null) os.close();
+            if (is != null) is.close();
             if (connection != null ) connection.close();
         }
         catch (IOException e) {

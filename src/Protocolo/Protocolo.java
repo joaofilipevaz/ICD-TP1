@@ -53,16 +53,17 @@ public class Protocolo {
 
     public Document writeLogin(String user, String pass){
 
-        Element login_tag = D.createElement("login");
+        Element tipo_pedido = D.createElement("tipo");
         Element user_tag = D.createElement("user");
         Element pass_tag = D.createElement("pass");
 
+        tipo_pedido.setTextContent("login");
         user_tag.setTextContent(md5Hash(user));
         pass_tag.setTextContent(md5Hash(pass));
 
-        protocol_tag.appendChild(login_tag);
-        login_tag.appendChild(user_tag);
-        login_tag.appendChild(pass_tag);
+        protocol_tag.appendChild(tipo_pedido);
+        protocol_tag.appendChild(user_tag);
+        protocol_tag.appendChild(pass_tag);
 
         return D;
     }

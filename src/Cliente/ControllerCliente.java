@@ -5,7 +5,6 @@ import org.w3c.dom.Document;
 
 public class ControllerCliente {
 
-
     public final static String DEFAULT_HOSTNAME = "localhost";
     public final static int DEFAULT_PORT = 5025;
 
