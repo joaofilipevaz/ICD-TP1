@@ -63,7 +63,9 @@ public class ClienteSimplesTCP {
 
     public String readSocket(){
         try {
-            return is.readLine();
+            String msg = is.readLine();
+            System.out.println("Cliente Recebeu --> " + msg);
+            return msg;
         } catch (IOException e) {
             e.printStackTrace();
         }

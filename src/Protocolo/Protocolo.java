@@ -58,7 +58,7 @@ public class Protocolo {
         Element pass_tag = D.createElement("pass");
 
         tipo_pedido.setTextContent("login");
-        user_tag.setTextContent(md5Hash(user));
+        user_tag.setTextContent(user);
         pass_tag.setTextContent(md5Hash(pass));
 
         protocol_tag.appendChild(tipo_pedido);
