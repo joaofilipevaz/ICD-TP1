@@ -4,7 +4,6 @@ import Protocolo.Protocolo;
 import Servidor.db.DbManager;
 import XML.XMLDoc;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 public class ControllerServidor {
 
@@ -17,7 +16,6 @@ public class ControllerServidor {
     private static Document db;
 
     public static String gestorComunicacao(String msg){
-
 
         Document d = Protocolo.convertStringToDocument(msg);
         String tipoPedido = XMLDoc.getXPathV("//tipo",d);
@@ -32,8 +30,11 @@ public class ControllerServidor {
                 String pass = XMLDoc.getXPathV("//pass",d);
                 System.out.println(user);
                 System.out.println(pass);
-                return log.loginReply(true);
-                break;
+                if (DbManager.validateLogin(user, pass, db)) {
+                    return Protocolo.getStringFromDocument(log.loginReply(true));
+                } else {
+                    return Protocolo.getStringFromDocument(log.loginReply(false));
+                }
 
             case clienteDataTransfer:
                 break;
@@ -44,11 +45,11 @@ public class ControllerServidor {
             default:
                 break;
         }
-
+        return null;
     }
 
     public static void main(String[] args) {
-        Document db = DbManager.readFromDB("/db/db.xml");
+        db = DbManager.readFromDB("src/servidor/db/db.xml");
 
         ServidorTCPConcorrente sv = new ServidorTCPConcorrente(DEFAULT_PORT);
         new Thread(sv).start();

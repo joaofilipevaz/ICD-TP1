@@ -26,6 +26,9 @@ public class ControllerCliente {
 
         clienteTCP.writeSocket(d);
 
+        while(true){
+            clienteTCP.readSocket();
+        }
         //clienteTCP.closeSocket();
 
         //log.removeChilds(d.getDocumentElement());
